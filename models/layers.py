@@ -64,3 +64,24 @@ class ResBlock(nn.Module):
         x += res
         x = self.final_activation(x)
         return x
+
+
+class SElayer3D(nn.Module):
+    def __init__(self, input_dim, reduction=2):
+        super(SElayer3D, self).__init__()
+        squeeze_channels = input_dim // reduction
+
+        self.avg_pool = nn.AdaptiveAvgPool3d(1)
+        self.fc1 = nn.Conv3d(input_dim, squeeze_channels, 1, bias=True)
+        self.relu = nn.ReLU(inplace=True)
+        # self.relu = nn.LeakyReLU(inplace=True)
+        self.fc2 = nn.Conv3d(squeeze_channels, input_dim, 1, bias=True)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        y = self.avg_pool(x)
+        y = self.fc1(y)
+        y = self.relu(y)
+        y = self.fc2(y)
+        y = self.sigmoid(y)
+        return x * y
