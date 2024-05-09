@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-__all__ = ['create_conv_layer', 'DoubleConv', 'ResBlock']
+__all__ = ['create_conv_layer', 'DoubleConv', 'ResBlock', 'MBConv']
 
 
 def create_conv_layer(input_dim, output_dim,
@@ -85,3 +85,38 @@ class SElayer3D(nn.Module):
         y = self.fc2(y)
         y = self.sigmoid(y)
         return x * y
+
+
+class MBConv(nn.Module):
+    def __init__(self, input_dim, output_dim, bias, order='cbl',
+                 expand_ratio=1.25, use_fused=False, use_se=True, reduction=4):
+        super(MBConv, self).__init__()
+        assert expand_ratio != 1
+        expanded_channels = int(output_dim * expand_ratio)
+
+        if use_fused == False:
+            # expand
+            self.expand = create_conv_layer(input_dim, expanded_channels, 
+                                            kernel_size=1, stride=1, padding=0, bias=bias, order=order)
+            # depthwise
+            self.depthwise = create_conv_layer(expanded_channels, expanded_channels, 
+                                            kernel_size=3, stride=1, padding=1, bias=bias, order=order)
+        else:
+            # use fused
+            self.expand = create_conv_layer(input_dim, expanded_channels, 
+                                            kernel_size=3, stride=1, padding=1, bias=bias, order=order)
+            self.depthwise = None
+
+        self.se =  SElayer3D(expanded_channels, reduction) if use_se == True else None
+        # project
+        self.project = create_conv_layer(expanded_channels, output_dim, 
+                                        kernel_size=1, stride=1, padding=0, bias=bias, order=order[:-1])
+
+    def forward(self, x):
+        x = self.expand(x)
+        if self.depthwise is not None:
+            x = self.depthwise(x)
+        if self.se is not None:
+            x = self.se(x)
+        x = self.project(x)
+        return x
