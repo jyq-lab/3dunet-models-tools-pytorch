@@ -3,7 +3,6 @@
 - <a href="#ResBlock">ResBlock</a>
 - <a href="#SElayer3D">SElayer3D</a>
 - <a href="#MBConv">MBConv(Fused-MBConv)</a>
-- [MBConv](##MBConv)
 
 ## <a id="DoubleConv">DoubleConv</a>
 The standard convolutional structure of [3D U-Net](https://arxiv.org/abs/1606.06650).
