@@ -89,7 +89,7 @@ class SElayer3D(nn.Module):
 
 class MBConv(nn.Module):
     def __init__(self, input_dim, output_dim, bias, order='cbl',
-                 expand_ratio=1.25, use_fused=False, use_se=True, reduction=4,
+                 expand_ratio=1.25, use_fused=False, use_se=False, reduction=4,
                  use_res=True):
         super(MBConv, self).__init__()
         assert expand_ratio != 1
@@ -116,6 +116,8 @@ class MBConv(nn.Module):
         # project
         self.project = create_conv_layer(expanded_channels, output_dim, 
                                         kernel_size=1, stride=1, padding=0, bias=bias, order=order[:-1])
+        
+        self.final_activation = create_conv_layer(output_dim, output_dim, order=order[-1])
 
     def forward(self, x):
         if self.res is not None:
@@ -129,4 +131,5 @@ class MBConv(nn.Module):
             x = self.se(x)
 
         x = self.project(x) + res if self.res is not None else self.project(x)
+        x = self.final_activation(x)
         return x
