@@ -7,7 +7,7 @@
 - [DoubleConv](#doubleconv)
 - [ResBlock](#resblock)
 - [SElayer3D](#selayer3d)
-- [MBConv](#mbconvfused-mbconv)
+- [MBConv(Fused-MBConv)](#mbconvfused-mbconv)
 
 ### DoubleConv
 The standard convolutional structure of [3D U-Net](https://arxiv.org/abs/1606.06650).
