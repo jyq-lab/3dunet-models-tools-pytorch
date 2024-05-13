@@ -1,4 +1,4 @@
-## PyTorch implementation 3D U-Net
+## PyTorch implementation of 3D U-Net
 The model structure is based on 3D U-Net.  
 <details>
   <summary>3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation 
