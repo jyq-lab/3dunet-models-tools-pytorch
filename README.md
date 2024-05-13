@@ -1,4 +1,4 @@
-## PyTorch implementation of 3D U-Net
+## PyTorch implementation of 3D U-Net and its variants, as well as some modules
 <details>
   <summary>
     <strong>3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation</strong>
