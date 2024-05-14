@@ -8,6 +8,7 @@
 - [ResBlock](#resblock)
 - [SElayer3D](#selayer3d)
 - [MBConv(Fused-MBConv)](#mbconvfused-mbconv)
+- [AttentionGates3D](#attentiongates3d)
 
 ### DoubleConv
 The standard convolutional structure of [3D U-Net](https://arxiv.org/abs/1606.06650).
@@ -26,3 +27,13 @@ The [SE](https://arxiv.org/pdf/1709.01507) module is implemented in 3D.(referenc
 
 ### MBConv(Fused-MBConv)
 [EfficientNet v2](https://arxiv.org/pdf/2104.00298)
+
+### AttentionGates3D
+<details>
+  <summary>
+    <strong>Attention U-Net: Learning Where to Look for the Pancreas</strong>
+    <a href="https://arxiv.org/abs/1804.03999" target="_blank">(https://arxiv.org/abs/1804.03999)</a>
+  </summary>
+    implemented in 3D.
+    img...
+</details>
