@@ -37,3 +37,34 @@ class MultiDiceLossW(nn.Module):
             _i_w_dice_loss = _i_dice_loss * self.weight[i]
             total_loss += _i_w_dice_loss
         return total_loss / cls
+
+
+class DiceCELoss(nn.Module):
+    def __init__(self, 
+                 include_background, 
+                 squared_pred,
+                 activation=False, 
+                 lambda_dice: float = 1.0,
+                 lambda_ce: float = 1.0,
+                 ):
+        super(DiceCELoss, self).__init__()
+        assert  0.0 <= lambda_dice <= 1.0, \
+            "lambda_dice should not be less than 0.0 and should not be greater than 1.0"
+        assert  0.0 <= lambda_ce <= 1.0, \
+            "lambda_dice should not be less than 0.0 and should not be greater than 1.0"
+        self.lambda_dice, self.lambda_ce = lambda_dice, lambda_ce
+
+        self.dice = MultiDiceLossW(
+            weight=None, 
+            activation=False,
+            include_background=include_background,
+            squared_pred=squared_pred)
+        
+        # one-hot data must be processed with softmax
+        self.ce = nn.CrossEntropyLoss()
+
+    def forward(self, input: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+        dice_loss = self.dice(input, target)
+        ce_loss = self.ce(input, target)
+        total_loss: torch.Tensor = self.lambda_dice * dice_loss + self.lambda_ce * ce_loss
+        return total_loss
