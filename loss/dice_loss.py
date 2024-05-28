@@ -1,3 +1,6 @@
+import torch
+import torch.nn as nn
+
 def _dice_loss(predict, target, pow=False, alpha=1):
     smooth = 1e-5
 
@@ -47,9 +50,7 @@ class MultiDiceLossW(nn.Module):
 
         total_loss = 0
         for i in range(cls):
-            _i_dice_loss = _dice_loss(outs[:, i], labels[:, i], self.squared_pred, 10)
-            print("{:.4f}".format(_i_dice_loss.item()), end=' ')
-
+            _i_dice_loss = _dice_loss(outs[:, i], labels[:, i], self.squared_pred, alpha=1)
             _i_w_dice_loss = _i_dice_loss * self.weight[i]
             total_loss += _i_w_dice_loss
         return total_loss / cls
