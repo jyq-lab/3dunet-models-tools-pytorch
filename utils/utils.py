@@ -1,7 +1,7 @@
 import torch
 import numpy
 
-# accessing dice with '.'
+# accessing dict with '.'
 class DotDict(dict):
     __getattr__ = dict.get
     __setattr__ = dict.__setitem__
