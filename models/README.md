@@ -9,14 +9,12 @@ model = UNet3D(in_channels=1, out_channels=1, order='cbl', f_maps=[32,64,128,256
 ```
 #### Residual module
 ```python
-from unet3d import UNet3D
 from layers import ResBlock
 
 model = UNet3D(in_channels=1, out_channels=1, order='cbl', f_maps=[32,64,128,256], basic_module=ResBlock, upsample_type='deconv', bias=True)
 ```
 #### Inverted Residual module(mobilenetv3)
 ```python
-from unet3d import UNet3D
 from layers import MBConv
 
 '''InvertedResidual+SE+res: MBConv.__init__(use_fused=False, use_se=True, reduction=4, use_res=True)'''
@@ -26,7 +24,6 @@ model = UNet3D(in_channels=1, out_channels=1, order='cbl', f_maps=[16,32,64,128,
 
 #### Fused-MBConve module(efficientNetv2)
 ```python
-from unet3d import UNet3D
 from layers import MBConv
 
 '''Fused-MBConve+SE+res: MBConv.__init__(use_fused=True, use_se=True, reduction=4, use_res=True)'''
