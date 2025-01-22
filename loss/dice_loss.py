@@ -36,6 +36,9 @@ class MultiDiceLossW(nn.Module):
         if self.activation == True:
             outs = torch.sigmoid(outs) if cls == 1 else torch.softmax(outs, dim=1)
 
+        self.weight = [1.0] * cls if self.weight is None else self.weight
+        assert len(self.weight) == cls, "weight must match the category(include background)."
+
         if self.include_background == False:
             if cls == 1:
                 print("single channel prediction, `include_background=False` ignored.")
@@ -44,9 +47,6 @@ class MultiDiceLossW(nn.Module):
                 outs = outs[:, 1:]
                 labels = labels[:, 1:]
         labels = labels.float()
-
-        self.weight = [1.0] * cls if self.weight is None else self.weight
-        assert len(self.weight) == cls, " weight must correspond to category(include background) "
 
         total_loss = 0
         for i in range(cls):
