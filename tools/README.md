@@ -20,12 +20,17 @@ $$ Recall = \frac{TP}{TP + FN} $$
   </tr>
   <tr>
     <td>dice_score</td>
-    <td>Calculate DSC score.</td>
+    <td>calculate DSC score.</td>
     <td align="center">$DSC = \frac{2|X \cap Y|}{|X| + |Y|}$</td>
   </tr>
   <tr>
     <td>euclidean_distance</td>
-    <td>Calculate euclidean distance.</td>
+    <td>calculate euclidean distance.</td>
     <td align="center">$d(A, B)=\sqrt{(x_2 - x_1)^2+(y_2 - y_1)^2+(z_2 - z_1)^2}$</td>
+  </tr>
+  <tr>
+    <td>calculate</td>
+    <td>calculate accuracy,precision,specificity,recall,iou,dice.</td>
+    <td align="center"></td>
   </tr>
 </table>
