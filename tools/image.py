@@ -90,3 +90,84 @@ def crop_img_from_keypoint(img, point, crop_size):
         img[new_point[0]-temp_size[0]:new_point[0]+temp_size[0],
             new_point[1]-temp_size[1]:new_point[1]+temp_size[1],
             new_point[2]-temp_size[2]:new_point[2]+temp_size[2]])
+
+def get_max_pred(heatmap):
+    max_index = np.argmax(heatmap)
+    max_index_3d = np.unravel_index(max_index, heatmap.shape)
+    return list(max_index_3d)
+
+
+def compute_bounding_box(mask):
+    """Computes the bounding box of the masks.
+
+    This function generalizes to arbitrary number of dimensions great or equal
+    to 1.
+
+    Args:
+        mask: The 2D or 3D numpy mask, where '0' means background and non-zero means
+        foreground.
+
+    Returns:
+        A tuple:
+        - The coordinates of the first point of the bounding box (smallest on all
+        axes), or `None` if the mask contains only zeros.
+        - The coordinates of the second point of the bounding box (greatest on all
+        axes), or `None` if the mask contains only zeros.
+    """
+    num_dims = len(mask.shape)
+    bbox_min = np.zeros(num_dims, np.int64)
+    bbox_max = np.zeros(num_dims, np.int64)
+
+    # max projection to the x0-axis
+    proj_0 = np.amax(mask, axis=tuple(range(num_dims))[1:])
+    idx_nonzero_0 = np.nonzero(proj_0)[0]
+    if len(idx_nonzero_0) == 0:  # pylint: disable=g-explicit-length-test
+        return None, None
+
+    bbox_min[0] = np.min(idx_nonzero_0)
+    bbox_max[0] = np.max(idx_nonzero_0)
+
+    # max projection to the i-th-axis for i in {1, ..., num_dims - 1}
+    for axis in range(1, num_dims):
+        max_over_axes = list(range(num_dims))  # Python 3 compatible
+        max_over_axes.pop(axis)  # Remove the i-th dimension from the max
+        max_over_axes = tuple(max_over_axes)  # numpy expects a tuple of ints
+        proj = np.amax(mask, axis=max_over_axes)
+        idx_nonzero = np.nonzero(proj)[0]
+        bbox_min[axis] = np.min(idx_nonzero)
+        bbox_max[axis] = np.max(idx_nonzero)
+
+    return bbox_min, bbox_max
+
+
+def bb_iou_3d(min1, max1, min2, max2):
+    """
+    计算两个三维矩形框的交并比（IoU）
+    :param min1: 第一个矩形框的最小点 [z, y, x]
+    :param max1: 第一个矩形框的最大点 [z, y, x]
+    :param min2: 第二个矩形框的最小点 [z, y, x]
+    :param max2: 第二个矩形框的最大点 [z, y, x]
+    :return: IoU 值
+    """
+
+    # 计算交集的最小点和最大点
+    inter_min = [max(min1[0], min2[0]), max(min1[1], min2[1]), max(min1[2], min2[2])]
+    inter_max = [min(max1[0], max2[0]), min(max1[1], max2[1]), min(max1[2], max2[2])]
+
+    # 计算交集的尺寸
+    inter_dim = [max(0, inter_max[0] - inter_min[0]),
+                 max(0, inter_max[1] - inter_min[1]),
+                 max(0, inter_max[2] - inter_min[2])]
+
+    # 计算交集体积
+    inter_volume = inter_dim[0] * inter_dim[1] * inter_dim[2]
+    # 计算第一个矩形框的体积
+    volume1 = (max1[0] - min1[0]) * (max1[1] - min1[1]) * (max1[2] - min1[2])
+    # 计算第二个矩形框的体积
+    volume2 = (max2[0] - min2[0]) * (max2[1] - min2[1]) * (max2[2] - min2[2])
+    # 计算并集体积
+    union_volume = volume1 + volume2 - inter_volume
+    # 计算 IoU
+    iou = inter_volume / union_volume if union_volume != 0 else 0
+
+    return iou
