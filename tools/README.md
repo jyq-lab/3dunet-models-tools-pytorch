@@ -3,6 +3,15 @@
 
 ### base.py
 ### image.py
+| Function | Description |
+|----------|-------------|
+|dicom_to_nii_gz||
+|draw_msra_gaussian_3d||
+|crop_img_from_keypoint||
+|get_max_pred||
+|compute_bounding_box||
+|bb_iou_3d||
+
 ### test.py  
 <table>
   <tr>
