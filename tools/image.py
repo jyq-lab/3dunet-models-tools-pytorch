@@ -1,5 +1,23 @@
+import os
 import numpy as np
+import SimpleITK as sitk
 from copy import copy
+
+
+def dicom_to_nii_gz(dcm_dir, output_nii_gz):
+    assert os.path.exists(dcm_dir), "dcm directory does not exist!"
+    
+    # 读dicom
+    reader = sitk.ImageSeriesReader()
+    names = reader.GetGDCMSeriesFileNames(dcm_dir)
+    reader.SetFileNames(names)
+    image = reader.Execute()
+    
+    # 转nii.gz
+    writer = sitk.ImageFileWriter()
+    writer.SetFileName(output_nii_gz)
+    writer.SetUseCompression(True)
+    writer.Execute(image)
 
 
 def draw_msra_gaussian_3d(heatmap_3d, center, sigma):
