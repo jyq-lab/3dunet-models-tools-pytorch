@@ -32,4 +32,9 @@
       $DSC=\frac{2TP}{2TP + FP + FN}$
     </td>
   </tr>
+  <tr>
+    <td>hausdorff_distance</td>
+    <td>calculate hausdorff distance.</td>
+    <td align="center">$\text{HD}(A, B) = \max\left\{ \max_{a \in A} \min_{b \in B} d(a, b), \max_{b \in B} \min_{a \in A} d(a, b) \right\}$</td>
+  </tr>
 </table>
