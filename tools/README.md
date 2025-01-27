@@ -1,13 +1,5 @@
-$$ DSC = \frac{2|X \cap Y|}{|X| + |Y|} $$
-
-$$ Precision = \frac{TP}{TP + FP} $$
-
-$$ Recall = \frac{TP}{TP + FN} $$ 
-
-
 ### Split_Comb.py
-* 3D image to patchs.
-* [reference blog](https://blog.csdn.net/qq_39233558/article/details/137139232?fromshare=blogdetail&sharetype=blogdetail&sharerId=137139232&sharerefer=PC&sharesource=qq_39233558&sharefrom=from_link)
+* 3D image to patchs. [reference blog](https://blog.csdn.net/qq_39233558/article/details/137139232?fromshare=blogdetail&sharetype=blogdetail&sharerId=137139232&sharerefer=PC&sharesource=qq_39233558&sharefrom=from_link)
 
 ### base.py
 ### image.py
@@ -30,7 +22,14 @@ $$ Recall = \frac{TP}{TP + FN} $$
   </tr>
   <tr>
     <td>calculate</td>
-    <td>calculate accuracy,precision,specificity,recall,iou,dice.</td>
-    <td align="center"></td>
+    <td>calculate accuracy, precision, specificity, recall, iou, dice.</td>
+    <td align="center">
+      $Accuracy=\frac{TP + TN}{TP + TN + FP + FN}$</br>
+      $Precision = \frac{TP}{TP + FP}$</br>
+      $Specificity=\frac{TN}{TN + FP}$</br>
+      $Recall=\frac{TP}{TP + FN}$</br>
+      $IoU=\frac{TP}{TP + FP + FN}$</br>
+      $DSC=\frac{2TP}{2TP + FP + FN}$
+    </td>
   </tr>
 </table>
