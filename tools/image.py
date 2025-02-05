@@ -156,36 +156,3 @@ def compute_bounding_box(mask):
         bbox_max[axis] = np.max(idx_nonzero)
 
     return bbox_min, bbox_max
-
-
-def bb_iou_3d(min1, max1, min2, max2):
-    """
-    计算两个三维矩形框的交并比（IoU）
-    :param min1: 第一个矩形框的最小点 [z, y, x]
-    :param max1: 第一个矩形框的最大点 [z, y, x]
-    :param min2: 第二个矩形框的最小点 [z, y, x]
-    :param max2: 第二个矩形框的最大点 [z, y, x]
-    :return: IoU 值
-    """
-
-    # 计算交集的最小点和最大点
-    inter_min = [max(min1[0], min2[0]), max(min1[1], min2[1]), max(min1[2], min2[2])]
-    inter_max = [min(max1[0], max2[0]), min(max1[1], max2[1]), min(max1[2], max2[2])]
-
-    # 计算交集的尺寸
-    inter_dim = [max(0, inter_max[0] - inter_min[0]),
-                 max(0, inter_max[1] - inter_min[1]),
-                 max(0, inter_max[2] - inter_min[2])]
-
-    # 计算交集体积
-    inter_volume = inter_dim[0] * inter_dim[1] * inter_dim[2]
-    # 计算第一个矩形框的体积
-    volume1 = (max1[0] - min1[0]) * (max1[1] - min1[1]) * (max1[2] - min1[2])
-    # 计算第二个矩形框的体积
-    volume2 = (max2[0] - min2[0]) * (max2[1] - min2[1]) * (max2[2] - min2[2])
-    # 计算并集体积
-    union_volume = volume1 + volume2 - inter_volume
-    # 计算 IoU
-    iou = inter_volume / union_volume if union_volume != 0 else 0
-
-    return iou
