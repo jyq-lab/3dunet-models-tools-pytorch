@@ -5,11 +5,11 @@
 ### image.py
 | Function | Description |
 |----------|-------------|
-|dicom_to_nii_gz||
-|draw_msra_gaussian_3d||
-|crop_img_from_keypoint||
+|dicom_to_nii_gz|Convert DICOM series to NIfTI.|
+|draw_msra_gaussian_3d|Draw Gaussian spheres for keypoint detection.|
+|crop_img_from_keypoint|Crop the image centered on the point.|
 |get_max_pred||
-|compute_bounding_box||
+|compute_bounding_box|Bounding box of the mask.|
 |bb_iou_3d||
 
 ### test.py  
