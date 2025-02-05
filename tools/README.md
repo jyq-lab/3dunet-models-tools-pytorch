@@ -21,17 +21,17 @@
   </tr>
   <tr>
     <td>dice_score</td>
-    <td>calculate DSC score.</td>
+    <td>Calculate the DSC score by regions.</td>
     <td align="center">$DSC = \frac{2|X \cap Y|}{|X| + |Y|}$</td>
   </tr>
   <tr>
     <td>euclidean_distance</td>
-    <td>calculate euclidean distance.</td>
+    <td>Calculate the Euclidean distance between two 3D points.</td>
     <td align="center">$d(A, B)=\sqrt{(x_2 - x_1)^2+(y_2 - y_1)^2+(z_2 - z_1)^2}$</td>
   </tr>
   <tr>
     <td>calculate</td>
-    <td>calculate accuracy, precision, specificity, recall, iou, dice.</td>
+    <td>Calculate accuracy, precision, specificity, recall, iou and dice based on voxels.</td>
     <td align="center">
       $Accuracy=\frac{TP + TN}{TP + TN + FP + FN}$</br>
       $Precision = \frac{TP}{TP + FP}$</br>
@@ -43,7 +43,7 @@
   </tr>
   <tr>
     <td>hausdorff_distance</td>
-    <td>calculate hausdorff distance.</td>
+    <td>Calculate hausdorff distance.</td>
     <td align="center">$\text{HD}(A, B) = \max\left\{ \max_{a \in A} \min_{b \in B} d(a, b), \max_{b \in B} \min_{a \in A} d(a, b) \right\}$</td>
   </tr>
 </table>
