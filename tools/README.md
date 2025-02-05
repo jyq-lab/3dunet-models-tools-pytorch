@@ -8,9 +8,8 @@
 |dicom_to_nii_gz|Convert DICOM series to NIfTI.|
 |draw_msra_gaussian_3d|Draw Gaussian spheres for keypoint detection.|
 |crop_img_from_keypoint|Crop the image centered on the point.|
-|get_max_pred||
+|get_max_pred|Get max-value index from heatmap for keypoint detection.|
 |compute_bounding_box|Bounding box of the mask.|
-|bb_iou_3d||
 
 ### test.py  
 <table>
@@ -45,5 +44,10 @@
     <td>hausdorff_distance</td>
     <td>Calculate hausdorff distance.</td>
     <td align="center">$\text{HD}(A, B) = \max\left\{ \max_{a \in A} \min_{b \in B} d(a, b), \max_{b \in B} \min_{a \in A} d(a, b) \right\}$</td>
+  </tr>
+  <tr>
+    <td>bb_iou_3d</td>
+    <td>Compute 3D bounding box IoU.</td>
+    <td align="center">$BBox IoU=\frac{|A \cap B|}{|A \cup B|}$</td>
   </tr>
 </table>
